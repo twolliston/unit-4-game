@@ -1,29 +1,75 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>Crystal Game</title>
+  <title>crystal game</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <link rel="stylesheet" href="assets/css/style">
 
 </head>
+
 <body>
 
- 
+  <h1>Number to Guess:
+    <span id="number-to-guess"></span>
+  </h1>
 
-  <!-- Define output here to html -->
- 
- 
+  <!-- Note that this div is now empty. We will fill it dynamically -->
+  <div id="crystals">
+  </div>
+
+  <!-- JAVASCRIPT  -->
+  <!-- ========================================= -->
   <script type="text/javascript">
 
-  // Define Variables 
+    // Generate ramdom number for crystals to match
+    var targetNumber = Math.floor(Math.random()*102)+19;
 
-  // Next we create a for loop to create crystals
+    $("#number-to-guess").text(targetNumber);
+
+    var counter = 0
+
+    // Next we create a for loop to create crystals for every numberOption.
+    for (var i = 0; i < 4; i++) {
+
+      // We begin by expanding our array to include four options.
+      var crystalRandom = Math.floor(Math.random() * 12) + 1;
+
+      // For each iteration, we will create an imageCrystal
+      var imageCrystal = $("<img>");
+
+      // First each crystal will be given the class ".crystal-image".
+      // This will allow the CSS to take effect.
+      imageCrystal.addClass("crystal-image");
+
+      // Each imageCrystal will be given a src link to the crystal image
+      if (i == 0) {
+        imageCrystal.attr("src", "assets/images/gem1.png");
+      } else if (i == 1) {
+        imageCrystal.attr("src", "assets/images/gem2.png");
+      } else if (i == 2) {
+        imageCrystal.attr("src", "assets/images/gem3.png");
+      } else if (i == 3) {
+        imageCrystal.attr("src", "assets/images/gem4.png");
+      }
+
+
+      // Each imageCrystal will be given a data attribute called data-crystalValue.
+      // This data attribute will be set equal to the random number generated.
+      imageCrystal.attr("data-crystalvalue", crystalRandom);
+
+      // Lastly, each crystal image (with all it classes and attributes) will get added to the page.
+      $("#crystals").append(imageCrystal);
+    }
+
+
+    $(".crystal-image").on("click", function () {
+
   
-  // Start game with on'Click
+    });
 
   </script>
-
-
-
 </body>
+
 </html>
