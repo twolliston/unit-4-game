@@ -1,3 +1,8 @@
+body {
+    background-image: linear-gradient(green, white);
+}
+
+
 .crystal-image {
     width: 300px;
     height: 300px;

@@ -101,23 +101,23 @@
       $(".game-info").remove();
       $(".game-button").remove();
       var gameInfo = "";
-
+      // Append counter to form element
       gameInfo = $("<h1></h1>");
       gameInfo.addClass("game-info");
       $("#game").append(gameInfo);
-      $("h1:last").html("Your Score: " + counter);
-
+      $("h1:last").html("Your Total Score: " + counter);
+      // Append wins to form element
       gameInfo = $("<h1></h1>");
       gameInfo.addClass("game-info");
       $("#game").append(gameInfo);
       $("h1:last").html("wins: " + wins);
-
+       // Append losses to form element
       gameInfo = $("<h1></h1>");
       gameInfo.addClass("game-info");
       $("#game").append(gameInfo);
       $("h1:last").html("losses: " + losses);
 
-
+      // Append button to form element
       gameInfo = $("<button>Restart Game</button>");
       gameInfo.addClass("game-button");
       gameInfo.attr("type", "submit");
@@ -128,9 +128,7 @@
 
     // Intialize game variables and load images 
     targetNumber = resetGame();
-
-
-    
+  
     // Event deligtion
     $(document).on("click", ".crystal-image", function () {
 
