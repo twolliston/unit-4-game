@@ -15,58 +15,155 @@
     <span id="number-to-guess"></span>
   </h1>
 
-  <!-- Note that this div is now empty. We will fill it dynamically -->
+  <!-- Create empty div to be loaded dynamically with crystal images -->
   <div id="crystals">
   </div>
 
+  <!-- Create empty div to be loaded dynamically with game information-->
+  <form id="game">
+  </form>
+
+
+
   <!-- JAVASCRIPT  -->
-  <!-- ========================================= -->
   <script type="text/javascript">
 
-    // Generate ramdom number for crystals to match
-    var targetNumber = Math.floor(Math.random()*102)+19;
+    // Declare variables
+    // ================= //
+    var targetNumber = 0;
+    var counter = 0;
+    var isGameOver = false;
+    var wins = 0;
+    var losses = 0;
 
-    $("#number-to-guess").text(targetNumber);
+    // ==========//
+    // Reset game
+    // ==========//
+    function resetGame() {
+      // Generate ramdom number for crystals to match
+      var number = Math.floor(Math.random() * 102) + 19;
+      targetNumber = number;
 
-    var counter = 0
+      $("#number-to-guess").text(number);
 
-    // Next we create a for loop to create crystals for every numberOption.
-    for (var i = 0; i < 4; i++) {
+      counter = 0;
+      
+      $(".crystal-image").remove();
 
-      // We begin by expanding our array to include four options.
-      var crystalRandom = Math.floor(Math.random() * 12) + 1;
-
-      // For each iteration, we will create an imageCrystal
-      var imageCrystal = $("<img>");
-
-      // First each crystal will be given the class ".crystal-image".
-      // This will allow the CSS to take effect.
-      imageCrystal.addClass("crystal-image");
-
-      // Each imageCrystal will be given a src link to the crystal image
-      if (i == 0) {
-        imageCrystal.attr("src", "assets/images/gem1.png");
-      } else if (i == 1) {
-        imageCrystal.attr("src", "assets/images/gem2.png");
-      } else if (i == 2) {
-        imageCrystal.attr("src", "assets/images/gem3.png");
-      } else if (i == 3) {
-        imageCrystal.attr("src", "assets/images/gem4.png");
-      }
-
-
-      // Each imageCrystal will be given a data attribute called data-crystalValue.
-      // This data attribute will be set equal to the random number generated.
-      imageCrystal.attr("data-crystalvalue", crystalRandom);
-
-      // Lastly, each crystal image (with all it classes and attributes) will get added to the page.
-      $("#crystals").append(imageCrystal);
+      createGems();
+      return (number);
     }
 
 
-    $(".crystal-image").on("click", function () {
+    // ======================================================= //
+    // Load gem images to page along with unique random rumbers
+    // ======================================================= //
+    function createGems() {
 
-  
+      // Next we create a for loop to create crystals for every numberOption.
+      for (var i = 0; i < 4; i++) {
+
+        // We begin by expanding our array to include four options.
+        var crystalRandom = Math.floor(Math.random() * 12) + 1;
+
+        // For each iteration, we will create an imageCrystal
+        var imageCrystal = $("<img>");
+
+        // First each crystal will be given the class ".crystal-image".
+        // This will allow the CSS to take effect.
+        imageCrystal.addClass("crystal-image");
+
+        // Each imageCrystal will be given a src link to the crystal image
+        if (i == 0) {
+          imageCrystal.attr("src", "assets/images/gem1.png");
+        } else if (i == 1) {
+          imageCrystal.attr("src", "assets/images/gem2.png");
+        } else if (i == 2) {
+          imageCrystal.attr("src", "assets/images/gem3.png");
+        } else if (i == 3) {
+          imageCrystal.attr("src", "assets/images/gem4.png");
+        }
+
+        // Each imageCrystal will be given a data attribute called data-crystalValue.
+        // This data attribute will be set equal to the random number generated.
+        imageCrystal.attr("data-crystalvalue", crystalRandom);
+
+        // Lastly, each crystal image (with all it classes and attributes) will get added to the page.
+        $("#crystals").append(imageCrystal);
+      }
+    }
+
+    // ======================================================= //
+    // Load game inoformation into empty div
+    // ======================================================= //
+    function createGameInfo() {
+
+      $(".game-info").remove();
+      $(".game-button").remove();
+      var gameInfo = "";
+
+      gameInfo = $("<h1></h1>");
+      gameInfo.addClass("game-info");
+      $("#game").append(gameInfo);
+      $("h1:last").html("Your Score: " + counter);
+
+      gameInfo = $("<h1></h1>");
+      gameInfo.addClass("game-info");
+      $("#game").append(gameInfo);
+      $("h1:last").html("wins: " + wins);
+
+      gameInfo = $("<h1></h1>");
+      gameInfo.addClass("game-info");
+      $("#game").append(gameInfo);
+      $("h1:last").html("losses: " + losses);
+
+
+      gameInfo = $("<button>Restart Game</button>");
+      gameInfo.addClass("game-button");
+      gameInfo.attr("type", "submit");
+      $("#game").append(gameInfo);
+
+    }
+
+
+    // Intialize game variables and load images 
+    targetNumber = resetGame();
+
+
+    
+    // Event deligtion
+    $(document).on("click", ".crystal-image", function () {
+
+      var crystalValue = ($(this).attr("data-crystalvalue"));
+      crystalValue = parseInt(crystalValue);
+
+      // Accumulate couner using random numbers assigned to each crystal
+      counter += crystalValue;
+
+      // Display counter, wins and looses
+      createGameInfo();
+
+      // increment wins
+      if (counter === targetNumber) {
+        wins += 1;
+        counter = 0;
+        createGameInfo();
+        resetGame();
+      }
+      // increment losses
+      else if (counter >= targetNumber) {
+        losses += 1;
+        counter = 0;
+        createGameInfo();
+        resetGame();
+      }
+
+    });
+
+    // Start new game. 
+    $(document).on("click", ".game-button", function () {
+      wins = 0;
+      losses = 0;
     });
 
   </script>
